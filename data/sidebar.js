@@ -18,22 +18,31 @@ var force = d3.layout.force()
 	.nodes(graphData.nodes)
 	.links(graphData.links)
 	.start();
+//setSidebarWidth(width);
 
 addon.port.on("graph-add", function(data) {
-	//setSidebarWidth(width);
+	console.log("graph-add("+JSON.stringify(data)+")");
+	force.nodes().push({
+		name: data.name,
+		which: data.which
+	});
 	
+	
+});
+addon.port.on("graph-refresh", function() {
+	console.log("graph-refresh");
 	var link = svg.selectAll(".link")
-		.data(json.links)
+		.data(graphData.links)
 		.enter().append("line")
 		.attr("class", "link");
 
 	var node = svg.selectAll(".node")
-		.data(data.nodes)
+		.data(graphData.nodes)
 		.enter().append("g")
 		.attr("class", "node")
 		.call(force.drag)
 		.on("click", function (d) {
-			addon.port.emit("switch-tab", d.index);
+			addon.port.emit("switch-tab", d.which);
 		});
 
 	node.append("image")
@@ -47,7 +56,7 @@ addon.port.on("graph-add", function(data) {
 		.attr("dx", 12)
 		.attr("dy", ".35em")
 		.text(function(d) { return d.name });
-
+		
 	force.on("tick", function() {
 		link.attr("x1", function(d) { return d.source.x; })
 		    .attr("y1", function(d) { return d.source.y; })
@@ -55,8 +64,7 @@ addon.port.on("graph-add", function(data) {
 		    .attr("y2", function(d) { return d.target.y; });
 		node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 	});
-});
-addon.port.on("graph-refresh", function(data) {
+		
 	force.start();
 });
 
