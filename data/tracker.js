@@ -1,1 +1,4 @@
-self.port.emit("visit", {referrer: document.referrer, URL: document.URL});
+self.port.emit("visit", {
+	referrer: document.referrer, 
+	url: document.URL
+});

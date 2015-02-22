@@ -6,7 +6,13 @@
 	<title>wooot</title>
 	<style>
 	.link {
-		stroke: #ccc;
+		fill: none;
+		stroke: #000;
+		stroke-width: 2px;
+		cursor: default;
+	}
+	.node {
+		cursor: pointer;
 	}
 	.node text {
 		pointer-events: none;
@@ -15,10 +21,6 @@
 	</style>
 	</head>
 <body>
-	Current tab: <span id="wat"></span><br/>
-	Open tabs:
-	<ul id="open-tabs">
-	</ul>
 	<script type="text/javascript" src="sidebar.js"></script>
 </body>
 </html>
